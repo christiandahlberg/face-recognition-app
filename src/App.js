@@ -2,12 +2,15 @@ import React from 'react';
 import Clarifai from 'clarifai';
 import Particles from 'react-particles-js';
 import './App.css';
+
 import Navigation from './components/navigation/Navigation';
 import SignIn from './components/signin/SignIn';
+import Register from './components/register/Register';
 import FaceRecognition from './components/facerecognition/FaceRecognition';
 import Logo from './components/logo/Logo';
 import Rank from './components/rank/Rank';
 import ImageLinkForm from './components/imagelinkform/ImageLinkForm';
+import Footer from './components/footer/Footer';
 
 
 const app = new Clarifai.App({
@@ -16,55 +19,15 @@ const app = new Clarifai.App({
 
 
 const particles = { 
-  "particles": {
-        "number": {
-            "value": 160, 
-            "density": {
-                "enable": false
-            }
-        },
-        "size": {
-            "value": 3,
-            "random": true,
-            "anim": {
-                "speed": 4,
-                "size_min": 0.3
-            }
-        },
-        "line_linked": {
-            "enable": false
-        },
-        "move": {
-            "random": true,
-            "speed": 1,
-            "direction": "top",
-            "out_mode": "out"
-        }
-    },
-    "interactivity": {
-        "events": {
-            "onhover": {
-                "enable": true,
-                "mode": "bubble"
-            },
-            "onclick": {
-                "enable": false,
-                "mode": "repulse"
-            }
-        },
-        "modes": {
-            "bubble": {
-                "distance": 250,
-                "duration": 2,
-                "size": 0,
-                "opacity": 0
-            },
-            "repulse": {
-                "distance": 100,
-                "duration": 4
-            }
-        }
+  particles: {
+    number: {
+      value: 50,
+      density: {
+        enable: true,
+        area: 800
+      }
     }
+  }
 }
 
 class App extends React.Component {
@@ -133,9 +96,8 @@ class App extends React.Component {
         <Particles
           className="particles"
           params={particles} />
-        { this.state.route === 'signin' 
-          ? <SignIn onRouteChange={this.onRouteChange}/>
-          : <div>
+        { this.state.route === 'home' 
+          ? <div>
               <Navigation onRouteChange={this.onRouteChange}/>
               <Logo />
               <Rank />
@@ -144,6 +106,12 @@ class App extends React.Component {
                 onButtonSubmit={this.onButtonSubmit}/>
               <FaceRecognition  imageUrl={this.state.imageUrl} boxes={this.state.boxes}/>
             </div>
+          : (
+            this.state.route === 'signin' 
+            ? <SignIn onRouteChange={this.onRouteChange}/>
+            : <Register onRouteChange={this.onRouteChange}/>
+
+            )
         }
       </div>
     );

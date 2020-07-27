@@ -4,7 +4,7 @@ import Tilt from 'react-tilt';
 import BrainLogo from '../logo/Logo.png';
 import '../logo/Logo.css';
 
-const SignIn = ({ onRouteChange }) => {
+const Register = ({ onRouteChange }) => {
     return (
 
       <article className="br2 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
@@ -17,9 +17,13 @@ const SignIn = ({ onRouteChange }) => {
                 </div>
               </Tilt>
               <div className="">
-                <p className="tc f3 fw6 ph0 mh0">SmartBrain</p>   
+                <p className="tc f3 fw6 ph0 mh0">Register</p>   
               </div>
               <div className="mt4">
+                <label className="db fw6 lh-copy f6 mb2" htmlFor="name">Name</label>
+                <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="text" name="name"  id="name" />
+              </div>
+              <div className="mv3">
                 <label className="db fw6 lh-copy f6 mb2" htmlFor="email-address">Email</label>
                 <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="email" name="email-address"  id="email-address" />
               </div>
@@ -30,16 +34,10 @@ const SignIn = ({ onRouteChange }) => {
             </fieldset>
             <div className="">
               <input 
-                className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f5 dib shadow-4 br2" 
+                className="b br2 ph3 pv2 input-reset ba b--black bg-transparent grow pointer f5 dib shadow-4" 
                 type="submit" 
-                value="Sign in"
-                onClick={() => onRouteChange('home') }/>
-            </div>
-            <div className="lh-copy mt3">
-              <p 
-                onClick={() => onRouteChange('register') }
-                className="f6 link dim black db pointer">New user? Register
-              </p>
+                value="Register"
+                onClick={() => onRouteChange('signin') }/>
             </div>
           </div>
         </main>
@@ -47,4 +45,4 @@ const SignIn = ({ onRouteChange }) => {
     )
 } 
 
-export default SignIn;
+export default Register;
