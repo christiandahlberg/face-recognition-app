@@ -72,42 +72,44 @@ class App extends React.Component {
     this.state = {
       input: '',
       imageUrl: '',
-      box: [],
+      boxes: [],
     }
   }
 
   calculateFaceLocation = (data) => {
+    const image = document.getElementById('inputimage')
+    let boxes = []
+
+    data.outputs[0].data.regions.forEach(region => {
+        const face = region.region_info.bounding_box
+        const width = Number(image.width)
+        const height = Number(image.height)
+
+      boxes.push({
+        leftCol: face.left_col * width,
+        topRow: face.top_row * height,
+        rightCol: width - (face.right_col * width),
+        bottomRow: height - (face.bottom_row * height)
+     })
+    })
+
+    return boxes;
+
   //  const image = document.getElementById('inputimage')
-  //  let boxes = []
+  //  const face = data.outputs[0].data.regions[0].region_info.bounding_box;
+  //  const width = Number(image.width)
+  //  const height = Number(image.height)
 
-  //  data.outputs[0].data.regions.forEach(region => {
-  //      const face = region.region_info.bounding_box
-  //      const width = Number(image.width)
-  //      const height = Number(image.height)
-
-  //    boxes.push({
+  //    return {
   //      leftCol: face.left_col * width,
   //      topRow: face.top_row * height,
-  //     rightCol: width - (face.right_col * width),
+  //      rightCol: width - (face.right_col * width),
   //      bottomRow: height - (face.bottom_row * height)
-  //   })
-  //  })
-
-    const image = document.getElementById('inputimage')
-    const face = data.outputs[0].data.regions[0].region_info.bounding_box;
-    const width = Number(image.width)
-    const height = Number(image.height)
-
-    return {
-      leftCol: face.left_col * width,
-      topRow: face.top_row * height,
-      rightCol: width - (face.right_col * width),
-      bottomRow: height - (face.bottom_row * height)
-    }
+  //    }
   }
 
-  displayFaceBoxes = (box) => {
-    this.setState({box: box})
+  displayFaceBoxes = (boxes) => {
+    this.setState({boxes: boxes})
   }
 
   onInputChange = (event) => {
@@ -141,7 +143,7 @@ class App extends React.Component {
         <ImageLinkForm 
           onInputChange={this.onInputChange} 
           onButtonSubmit={this.onButtonSubmit}/>
-        <FaceRecognition  imageUrl={this.state.imageUrl} box={this.state.box}/>
+        <FaceRecognition  imageUrl={this.state.imageUrl} boxes={this.state.boxes}/>
       </div>
     );
   }
