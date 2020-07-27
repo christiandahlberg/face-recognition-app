@@ -5,7 +5,7 @@ const Rank = () => {
 		<Fragment>
 			<div className="tc pa2">
 				<p className="f3 black-70 fw5">
-					{'You have detected 23 faces so far, Christian!'}
+					{'PLACEHOLDER TEXT FOR RANKING'}
 				</p>
 			</div>
 		</Fragment>
