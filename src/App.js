@@ -3,6 +3,7 @@ import Clarifai from 'clarifai';
 import Particles from 'react-particles-js';
 import './App.css';
 import Navigation from './components/navigation/Navigation';
+import SignIn from './components/signin/SignIn';
 import FaceRecognition from './components/facerecognition/FaceRecognition';
 import Logo from './components/logo/Logo';
 import Rank from './components/rank/Rank';
@@ -73,6 +74,7 @@ class App extends React.Component {
       input: '',
       imageUrl: '',
       boxes: [],
+      route: 'signin',
     }
   }
 
@@ -94,18 +96,6 @@ class App extends React.Component {
     })
 
     return boxes;
-
-  //  const image = document.getElementById('inputimage')
-  //  const face = data.outputs[0].data.regions[0].region_info.bounding_box;
-  //  const width = Number(image.width)
-  //  const height = Number(image.height)
-
-  //    return {
-  //      leftCol: face.left_col * width,
-  //      topRow: face.top_row * height,
-  //      rightCol: width - (face.right_col * width),
-  //      bottomRow: height - (face.bottom_row * height)
-  //    }
   }
 
   displayFaceBoxes = (boxes) => {
@@ -129,6 +119,12 @@ class App extends React.Component {
         this.state.input)
         .then(response => this.displayFaceBoxes(this.calculateFaceLocation(response)))
         .catch(err => console.log(err));
+
+    document.getElementById('inputForm').value = '';
+  }
+
+  onRouteChange = (route) => {
+    this.setState({route: route});
   }
 
   render() {
@@ -137,13 +133,18 @@ class App extends React.Component {
         <Particles
           className="particles"
           params={particles} />
-        <Navigation />
-        <Logo />
-        <Rank />
-        <ImageLinkForm 
-          onInputChange={this.onInputChange} 
-          onButtonSubmit={this.onButtonSubmit}/>
-        <FaceRecognition  imageUrl={this.state.imageUrl} boxes={this.state.boxes}/>
+        { this.state.route === 'signin' 
+          ? <SignIn onRouteChange={this.onRouteChange}/>
+          : <div>
+              <Navigation onRouteChange={this.onRouteChange}/>
+              <Logo />
+              <Rank />
+              <ImageLinkForm 
+                onInputChange={this.onInputChange} 
+                onButtonSubmit={this.onButtonSubmit}/>
+              <FaceRecognition  imageUrl={this.state.imageUrl} boxes={this.state.boxes}/>
+            </div>
+        }
       </div>
     );
   }

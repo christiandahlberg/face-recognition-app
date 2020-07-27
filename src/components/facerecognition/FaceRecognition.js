@@ -15,7 +15,7 @@ const FaceRecognition = ({ imageUrl, boxes }) => {
 
 	return (
     <div className='jcc flex ma'>
-      <div className='absolute mt2'>
+      <div className='absolute mt3 mb2'>
         <img id='inputimage' alt='' src={imageUrl} width='850px' heigh='auto'/>
         { face_boxes }
       </div>
