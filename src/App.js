@@ -95,7 +95,8 @@ class App extends React.Component {
   onImageSubmit = () => {
     this.setState({imageUrl: this.state.input})
 
-    if (!this.state.input) {
+    if (!this.state.input || 
+        document.getElementById('inputForm').value.length === 0) {
       alert("Please enter an image URL!")
     }
 
