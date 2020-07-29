@@ -1,12 +1,10 @@
 import React, { Fragment } from 'react';
 
-const Rank = () => {
+const Rank = ({ name, entries }) => {
 	return (
 		<Fragment>
-			<div className="tc pa2">
-				<p className="f3 black-70 fw5">
-					{'PLACEHOLDER TEXT FOR RANKING'}
-				</p>
+			<div className="f3 black-70 fw5 pb3 mt0 tc">
+				{`${name}, your current entries are: ${entries}`}
 			</div>
 		</Fragment>
 	)

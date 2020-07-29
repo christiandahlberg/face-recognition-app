@@ -4,7 +4,7 @@ const Footer = () => {
 	const yr = new Date().getFullYear();
 	return (
 		<footer className="pv4 ph3 ph5-m ph6-l mid-gray">
-		  <small className="f6 db tc">© {yr} <b className="ttu">Christian Dahlberg</b>., All Rights Reserved</small>
+		  <small className="f6 db tc">© {yr} <b className="ttu">Christian Dahlberg</b>. All Rights Reserved.</small>
 		  <div className="tc mt3">
 		    <p 
 			    title="Language" className="f6 dib ph2 mid-gray">
