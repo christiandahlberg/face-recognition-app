@@ -1,5 +1,4 @@
 import React from 'react';
-import Clarifai from 'clarifai';
 import Particles from 'react-particles-js';
 import './App.css';
 
@@ -11,11 +10,6 @@ import Logo from './components/logo/Logo';
 import Rank from './components/rank/Rank';
 import ImageLinkForm from './components/imagelinkform/ImageLinkForm';
 import Footer from './components/footer/Footer';
-
-
-const app = new Clarifai.App({
-  apiKey: '37d5bc8365304d9080499ee14b986ecd'
-});
 
 
 const particles = { 
@@ -30,23 +24,25 @@ const particles = {
   }
 }
 
+const initialState = {
+  input: '',
+  imageUrl: '',
+  boxes: [],
+  route: 'signin',
+  user: {
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: '',
+  }
+}
+
 class App extends React.Component {
   constructor() {
     super();
     // Excluding 'isSignedin: false'
-    this.state = {
-      input: '',
-      imageUrl: '',
-      boxes: [],
-      route: 'signin',
-      user: {
-        id: '',
-        name: '',
-        email: '',
-        entries: 0,
-        joined: '',
-      }
-    }
+    this.state = initialState;
   }
 
   loadUser = (data) => {
@@ -62,14 +58,10 @@ class App extends React.Component {
   }
 
   onRouteChange = (route) => {
+    if (route === 'signin') {
+      this.setState(initialState);
+    }
     this.setState({route: route});
-  }
-
-  resetImage = () => {
-    this.setState({
-      imageUrl: '',
-      boxes: []
-    })
   }
 
   calculateFaceLocation = (data) => {
@@ -107,29 +99,34 @@ class App extends React.Component {
       alert("Please enter an image URL!")
     }
 
-    app.models
-      .predict(
-        Clarifai.FACE_DETECT_MODEL, 
-        this.state.input)
-        .then(response => {
-          if (response) {
-            fetch('http://localhost:3001/image', {
-            method: 'put',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                id: this.state.user.id
-            })
-            })
-            .then(response => response.json()) 
-            .then(count => {
-              this.setState(Object.assign(this.state.user, {
-                entries: count
-              }))
-            })
-          }
-          this.displayFaceBoxes(this.calculateFaceLocation(response))
+    fetch('https://mysterious-savannah-50744.herokuapp.com/imageurl', {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+          input: this.state.input
+      })
+    })
+    .then(response => response.json())
+    .then(response => {
+      if (response) {
+        fetch('https://mysterious-savannah-50744.herokuapp.com:3001/image', {
+          method: 'put',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+              id: this.state.user.id
+          })
         })
-        .catch(err => console.log(err));
+        .then(response => response.json()) 
+        .then(count => {
+          this.setState(Object.assign(this.state.user, {
+            entries: count
+          }))
+        })
+        .catch(console.log)
+      }
+      this.displayFaceBoxes(this.calculateFaceLocation(response))
+    })
+    .catch(err => console.log(err));
 
     document.getElementById('inputForm').value = '';
   }
@@ -157,8 +154,7 @@ class App extends React.Component {
             ? <div>
                 <SignIn 
                   loadUser={this.loadUser}
-                  onRouteChange={this.onRouteChange}
-                  resetImage={this.resetImage}/>
+                  onRouteChange={this.onRouteChange}/>
                 <Footer />
               </div>
             : <div>

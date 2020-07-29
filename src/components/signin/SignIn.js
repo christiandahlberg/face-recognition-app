@@ -22,7 +22,7 @@ class SignIn extends React.Component {
     }
 
     onSubmitSignIn = () => {
-        fetch('http://localhost:3001/signin', {
+        fetch('https://mysterious-savannah-50744.herokuapp.com/signin', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -35,7 +35,6 @@ class SignIn extends React.Component {
               if(user.id){
                 this.props.loadUser(user);
                 this.props.onRouteChange('home');
-                this.props.resetImage();
               }
             })
     }

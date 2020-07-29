@@ -3,7 +3,7 @@ import './FaceRecognition.css';
 
 const FaceRecognition = ({ imageUrl, boxes }) => {
     const face_boxes = boxes.map((box, i) => {
-        return <div className="bounding-box"
+        return <div className="bounding-box grow"
                     id={i}
                     key={i}
                     style={{top: box.topRow, 
@@ -16,7 +16,7 @@ const FaceRecognition = ({ imageUrl, boxes }) => {
 	return (
     <div className='jcc flex ma'>
       <div className='absolute mt3 mb2'>
-        <img id='inputimage' alt='' src={imageUrl} width='850px' heigh='auto'/>
+        <img className="shadow-2 br2" id='inputimage' alt='' src={imageUrl} width='850px' heigh='auto'/>
         { face_boxes }
       </div>
     </div>

@@ -14,61 +14,36 @@ class Register extends React.Component {
         }
     }
 
-    validate = () => {
-      const nameInput = document.getElementById('name').value;
-      const emailInput = document.getElementById('email-address').value;
-      const password = document.getElementById('password').value;
-
-      var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
-      let isValid = true;
-
-      if (nameInput.length === 0 ||
-          password.length === 0 ||
-          emailInput.length === 0 ||
-          !pattern.test(emailInput)) {
-        isValid = false;
-      }
-
-      return isValid;
-
-    }
-
     onNameChange = (event) => {
-        this.setState({name: event.target.value})
+      this.setState({name: event.target.value})
     }
 
     onEmailChange = (event) => {
-        this.setState({email: event.target.value})
+      this.setState({email: event.target.value})
     }
 
     onPasswordChange = (event) => {
-        this.setState({password: event.target.value})
+      this.setState({password: event.target.value})
     }
 
     onSubmitRegister = () => {
-
-      if (!this.validate()) {
-        console.log("ERROR: Validation wrong. Either empty values or wrong email pattern.") // TODO error handling
-      } else {
-        fetch('http://localhost:3001/register', {
-          method: 'post',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-              name: this.state.name,
-              email: this.state.email,
-              password: this.state.password
-          })
+      fetch('https://mysterious-savannah-50744.herokuapp.com/register', { 
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            name: this.state.name,
+            email: this.state.email,
+            password: this.state.password
+        })
       })
-          .then(response => response.json())
-          .then(user => {
-              if (user) {
-                  this.props.loadUser(user);
-                  this.props.onRouteChange('home')
-                  console.log(user)
-              }
-          })
+        .then(response => response.json())
+        .then(user => {
+            if (user.id) {
+                this.props.loadUser(user);
+                this.props.onRouteChange('home')
+            }
+        })
       }
-    }
 
   render() {
     const { onRouteChange } = this.props;
