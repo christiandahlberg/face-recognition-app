@@ -109,7 +109,7 @@ class App extends React.Component {
     .then(response => response.json())
     .then(response => {
       if (response) {
-        fetch('https://mysterious-savannah-50744.herokuapp.com:3001/image', {
+        fetch('https://mysterious-savannah-50744.herokuapp.com/image', {
           method: 'put',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
